@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  notebook:
+    build: .
+    ports:
+      - "127.0.0.1:8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+  python_api:
+    build: . 
+    command: jupyter kernelgateway 
+            --KernelGatewayApp.api=notebook-http
+            --KernelGatewayApp.ip=0.0.0.0
+            --KernelGatewayApp.seed_uri='/home/jovyan/work/example_api_python.ipynb'
+    ports:
+      - "127.0.0.1:9001:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
